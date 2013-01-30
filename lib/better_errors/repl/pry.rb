@@ -38,7 +38,7 @@ module BetterErrors
         end
         @input = Input.new
         @output = Output.new
-        @pry = ::Pry.new input: @input, output: @output
+        @pry = ::Pry.new :input => @input, :output => @output
         @pry.hooks.clear_all
         @continued_expression = false
         @pry.hooks.add_hook :after_read, "better_errors hacky hook" do
@@ -52,7 +52,7 @@ module BetterErrors
       end
     
       def send_input(str)
-        local ::Pry.config, color: false, pager: false do
+        local ::Pry.config, :color => false, :pager => false do
           @continued_expression = true
           @fiber.resume "#{str}\n"
           [@output.read_buffer, @continued_expression ? ".." : ">>"]

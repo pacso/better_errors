@@ -92,7 +92,7 @@ module BetterErrors
     when :macvim, :mvim
       self.editor = "mvim://open?url=file://%{file}&line=%{line}"
     when String
-      self.editor = proc { |file, line| editor % { file: URI.encode_www_form_component(file), line: line } }
+      self.editor = proc { |file, line| editor % { :file => URI.encode_www_form_component(file), :line => line } }
     else
       if editor.respond_to? :call
         @editor = editor

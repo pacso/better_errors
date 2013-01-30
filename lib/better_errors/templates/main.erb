@@ -794,7 +794,7 @@
     
     REPL.prototype.sendInput = function(line) {
         var self = this;
-        apiCall("eval", { "index": this.index, source: line }, function(response) {
+        apiCall("eval", { :"index" => this.index, :source => line }, function(response) {
             if(response.error) {
                 self.writeOutput(response.error + "\n");
             }
@@ -863,7 +863,7 @@
                 return switchTo(el);
             }
 
-            apiCall("variables", { "index": index }, function(response) {
+            apiCall("variables", { :"index" => index }, function(response) {
                 el.loaded = true;
                 if(response.error) {
                     el.innerHTML = "<span class='error'>" + escapeHTML(response.error) + "</span>";

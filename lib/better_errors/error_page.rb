@@ -29,7 +29,7 @@ module BetterErrors
       index = opts["index"].to_i
       @frame = backtrace_frames[index]
       @var_start_time = Time.now.to_f
-      { html: render("variable_info") }
+      { :html => render("variable_info") }
     end
     
     def do_eval(opts)
@@ -37,15 +37,15 @@ module BetterErrors
       code = opts["source"]
       
       unless binding = backtrace_frames[index].frame_binding
-        return { error: "REPL unavailable in this stack frame" }
+        return { :error => "REPL unavailable in this stack frame" }
       end
       
       result, prompt =
         (@repls[index] ||= REPL.provider.new(binding)).send_input(code)
       
-      { result: result,
-        prompt: prompt,
-        highlighted_input: CodeRay.scan(code, :ruby).div(wrap: nil) }
+      { :result => result,
+        :prompt => prompt,
+        :highlighted_input => CodeRay.scan(code, :ruby).div(:wrap => nil) }
     end
 
     def backtrace_frames
